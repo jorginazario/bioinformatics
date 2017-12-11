@@ -3,6 +3,7 @@ import collections
 
 with open("pe_reads.sam", 'r') as sam_file:
 	#add each line to a dictionary of lists
+	numlines = 0
         d = collections.defaultdict(list)
 	for line in sam_file:
        	    if line.startswith('afun'):
@@ -14,6 +15,7 @@ with open("pe_reads.sam", 'r') as sam_file:
 				    d[id_num].append(line)
 		    else:
 			    d[id_num].append(line)
+	    numlines += 1
 	new_d = collections.defaultdict(list)
 	#iterate over dict, saving lines with a 0 and 16
 	for k, v in d.iteritems():
@@ -42,3 +44,5 @@ with open("pe_reads.sam", 'r') as sam_file:
 			strand = j.split()[9]
 			print "\t", len(strand)
 	print "Total inconsistencies: ",len(new_d)
+	print "Total number of lines: ", numlines
+	print "Percentage: ", 100 * float(len(new_d))/float(numlines)
